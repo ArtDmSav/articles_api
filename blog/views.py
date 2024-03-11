@@ -1,10 +1,7 @@
 from rest_framework import generics
-from rest_framework.views import APIView
-from django.http import JsonResponse
-from rest_framework import status
 
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post, Author, Comment
+from .serializers import PostSerializer, AuthorSerializer, CommentSerializer
 
 
 class PostList(generics.ListCreateAPIView):
@@ -12,12 +9,26 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
 
-class PostId(APIView):
-    def get(self, request, *args, **kwargs):
-        post_id = self.kwargs['post_id']  # Получаем значение из URL.
-        try:
-            queryset = Post.objects.get(id=post_id)  # Получаем пост с нужным id
-            serializer_class = PostSerializer(queryset)  # Сериализуем полученный пост
-            return JsonResponse(serializer_class.data)  # Возвращаем данные в формате JSON
-        except Post.DoesNotExist:
-            return JsonResponse({'error': 'Post does not exist'}, status=status.HTTP_404_NOT_FOUND)
+class PostId(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class AuthorList(generics.ListCreateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class AuthorId(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class CommentList(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+class CommentId(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
