@@ -7,6 +7,7 @@ class Post(models.Model):
     text = models.CharField()
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(to='Author', on_delete=models.CASCADE)
+    user = models.ForeignKey(to='User', on_delete=models.CASCADE, default='1', blank=False)
 
     def __str__(self):
         return self.title
@@ -15,6 +16,7 @@ class Post(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=100)
     age = models.IntegerField()
+    user = models.ForeignKey(to='User', on_delete=models.CASCADE, default='1', blank=False)
 
     def __str__(self):
         return self.name
@@ -31,4 +33,4 @@ class Comment(models.Model):
 
 class User(AbstractUser):
     def __str__(self):
-        self.username
+        return self.username
