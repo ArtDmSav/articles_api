@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 
 from .models import Post, Author, Comment, User
+from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer, AuthorSerializer, CommentSerializer, UserSerializer
 
 
@@ -14,7 +15,7 @@ class PostList(generics.ListCreateAPIView):
 class PostId(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class AuthorList(generics.ListCreateAPIView):
@@ -26,7 +27,7 @@ class AuthorList(generics.ListCreateAPIView):
 class AuthorId(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class CommentList(generics.ListCreateAPIView):
@@ -38,7 +39,7 @@ class CommentList(generics.ListCreateAPIView):
 class CommentId(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class UserList(generics.ListCreateAPIView):
